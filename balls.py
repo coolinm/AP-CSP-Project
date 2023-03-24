@@ -5,7 +5,7 @@ import pygame
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([500, 500])
+screen = pygame.display.set_mode([1920, 1080])
 clock = pygame.time.Clock()
 
 # Run until the user asks to quit
