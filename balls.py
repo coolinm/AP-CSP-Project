@@ -6,6 +6,7 @@ pygame.init()
 
 # Set up the drawing window
 screen = pygame.display.set_mode([500, 500])
+clock = pygame.time.Clock()
 
 # Run until the user asks to quit
 running = True
@@ -25,6 +26,8 @@ while running:
 
     # Flip the shit because pygame dumb dumb
     pygame.display.flip()
+
+    clock.tick(60)
 
 # Done! Time to quit.
 pygame.quit()
