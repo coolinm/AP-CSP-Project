@@ -5,7 +5,7 @@ import pygame
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([1280, 720])
+screen = pygame.display.set_mode([600, 600])
 clock = pygame.time.Clock()
 
 # Run until the user asks to quit
@@ -21,8 +21,10 @@ while running:
     screen.fill((255, 255, 255))
 
     # Draw a solid blue circle in the center
-    pygame.draw.circle(screen, (0, 0, 255), (250, 250), 75)
-    pygame.draw.line(screen, (255,0,0), (100, 100), (200, 200))
+    pygame.draw.line(screen, (0,0,0), (600, 0), (600, 600), 30)
+    pygame.draw.line(screen, (0,0,0), (0,600), (0,0), 30)
+    pygame.draw.line(screen, (0,0,0), (600,600), (0,600), 30)
+    pygame.draw.line(screen, (0,0,0), (0,0), (600,0), 30)
 
     # Flip the shit because pygame dumb dumb
     pygame.display.flip()
