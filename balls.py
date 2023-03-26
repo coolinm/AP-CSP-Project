@@ -30,6 +30,7 @@ textRect2.center = (600 // 2, 650 // 1.3)
 
 # place an X or O in gridNum list
 def placeGrid(index, player):
+    row = 0
     col = 0
     
     match index:
