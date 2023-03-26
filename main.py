@@ -34,39 +34,41 @@ def placeGrid(index, player):
     col = 0
     
     match index:
-        case 1:
+        case 0:
            row = 0
+           col = 0
+        case 1:
+           row = 1
            col = 0
         case 2:
-           row = 1
+           row = 2
            col = 0
         case 3:
-           row = 2
-           col = 0
-        case 4:
            row = 0
+           col = 1
+        case 4:
+           row = 1
            col = 1
         case 5:
-           row = 1
+           row = 2
            col = 1
         case 6:
-           row = 2
-           col = 1
-        case 7:
            row = 0
            col = 2
-        case 8:
+        case 7:
            row = 1
            col = 2
-        case 9:
+        case 8:
            row = 2
            col = 2
-           
-    if player == "X":
-       grid[row][col] = "X"
-    elif player == "O":
-       grid[row][col] = "O"
 
+    if grid[row][col] == " ":       
+        if player == "X":
+            grid[row][col] = "X"
+            print("X placed at " + str(row) + ", " + str(col))
+        elif player == "O":
+            grid[row][col] = "O"
+            print("O placed at " + str(row) + ", " + str(col))
 # place Xs and Os in the game
 def placeScreen(list):
 
