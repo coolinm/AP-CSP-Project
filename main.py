@@ -74,6 +74,67 @@ def placeGrid(index, player):
     else:
         return(False)
 # place Xs and Os in the game
+def placeScreen():
+
+    for item in grid:
+        for piece in item:
+            if piece.startswith("X"):
+                uCol = (piece.removeprefix("X"))
+                col = int(uCol[0])
+                uRow = (piece.removeprefix("X"))
+                row = int(uRow[1])
+
+                y=0
+                x=0
+
+                match row:
+                    case 0:
+                        y=100
+                    case 1:
+                        y=300
+                    case 2:
+                        y=500
+                
+                match col:
+                    case 0:
+                        x=100
+                    case 1:
+                        x=300
+                    case 2:
+                        x=500
+            
+                pygame.draw.line(screen, (255,0,0), (x-100, y-100), (x+100, y+100), 5)
+
+            elif piece.startswith("O"):
+                uCol = (piece.removeprefix("O"))
+                col = int(uCol[0])
+                uRow = (piece.removeprefix("O"))
+                row = int(uRow[1])
+                
+
+                y=0
+                x=0
+
+                match row:
+                    case 0:
+                        y=100
+                    case 1:
+                        y=300
+                    case 2:
+                        y=500
+                
+                match col:
+                    case 0:
+                        x=100
+                    case 1:
+                        x=300
+                    case 2:
+                        x=500
+            
+                pygame.draw.circle(screen, (0,0,0), (x, y), 100, 5)
+
+
+                
 
 # run until the user asks to quit
 running = True
