@@ -89,9 +89,9 @@ while running:
             for rectangle in gridRect:
                 if rectangle.collidepoint(pygame.mouse.get_pos()):
                     if pTurn == True:
-                        placeGrid(gridRect.index(rectangle, "X"))
+                        placeGrid(gridRect.index(rectangle), "X")
                     else:
-                        placeGrid(gridRect.index(rectangle, "O"))
+                        placeGrid(gridRect.index(rectangle), "O")
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
