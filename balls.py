@@ -6,6 +6,7 @@ pygame.init()
 # Set up the screen and clock
 screen = pygame.display.set_mode([600, 650])
 clock = pygame.time.Clock()
+startTime = time.time()
 
 #create text fonts
 font = pygame.font.Font('freesansbold.ttf', 32)
@@ -56,6 +57,8 @@ while running:
                 started = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 started = True
+                # record time at start of game
+                startTime = time.time()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     started = True
@@ -73,6 +76,13 @@ while running:
     pygame.draw.line(screen, (0,0,0), (0, 200), (600,200), 10)
     pygame.draw.line(screen, (0,0,0), (0,400), (600,400), 10)
 
+    # Calculate how many seconds have passed since the game has started
+    # and create a text object containing it
+    seconds = round(time.time() - startTime, 1)
+    timerText = font.render(str(seconds), True, (0,0,0), (255,255,255))
+    timerRect = timerText.get_rect()
+    timerRect.center = (600 // 11, 650 // 1.035)
+    screen.blit(timerText, timerRect)
     # Update the display
     pygame.display.update()
 
