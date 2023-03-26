@@ -8,7 +8,7 @@ screen = pygame.display.set_mode([600, 650])
 clock = pygame.time.Clock()
 startTime = time.time()
 
-# create empty list to represent grid
+# create empty list to represent grid and list containing rectangles to detect mouse collision
 grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 gridRect = [pygame.Rect(5, 5, 195, 195), pygame.Rect(5, 205, 195, 195), pygame.Rect(5, 405, 195, 195), pygame.Rect(205, 5, 195, 195), pygame.Rect(205, 205, 195, 195), pygame.Rect(205, 405, 195, 195), pygame.Rect(405, 5, 195, 195), pygame.Rect(405, 205, 195, 195), pygame.Rect(405, 405, 195, 195)]
 
@@ -64,15 +64,16 @@ def placeGrid(index, player):
 
     if grid[row][col] == " ":       
         if player == "X":
-            grid[row][col] = "X"
+            grid[row][col] = "X" + str(col) + str(row)
             print("X placed at " + str(row) + ", " + str(col))
+            return(True)
         elif player == "O":
-            grid[row][col] = "O"
+            grid[row][col] = "O" + str(col) + str(row)
             print("O placed at " + str(row) + ", " + str(col))
+            return(True)
+    else:
+        return(False)
 # place Xs and Os in the game
-def placeScreen(list):
-
-    print("l")
 
 # run until the user asks to quit
 running = True
@@ -91,9 +92,16 @@ while running:
             for rectangle in gridRect:
                 if rectangle.collidepoint(pygame.mouse.get_pos()):
                     if pTurn == True:
-                        placeGrid(gridRect.index(rectangle), "X")
+                        if placeGrid(gridRect.index(rectangle), "X") == True:
+                            pTurn = False
+                        else:
+                            print("Item already placed there")
                     else:
-                        placeGrid(gridRect.index(rectangle), "O")
+                        if placeGrid(gridRect.index(rectangle), "O") == True:
+                            pTurn = True
+                        else:
+                            print("Item already placed there")
+                    print(str(grid))
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
@@ -135,6 +143,8 @@ while running:
     pygame.draw.line(screen, (0,0,0), (0, 200), (600,200), 10)
     pygame.draw.line(screen, (0,0,0), (0,400), (600,400), 10)
 
+    placeScreen()
+
     # calculate seconds passed since game start
     # and create text object
     seconds = round(time.time() - startTime, 1)
@@ -142,9 +152,6 @@ while running:
     timerRect = timerText.get_rect()
     timerRect.center = (600 // 11, 650 // 1.035)
     screen.blit(timerText, timerRect)
-
-    for rectangle in gridRect:
-        pygame.draw.rect(screen, (255,0,0), rectangle, 10)
         
     # update the display
     pygame.display.update()
