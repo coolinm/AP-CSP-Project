@@ -1,4 +1,4 @@
-# import and initialize the pygame library
+# import and initialize pygame and time
 import pygame
 import time
 pygame.init()
@@ -10,6 +10,8 @@ startTime = time.time()
 
 # create empty list to represent grid and list containing rectangles to detect mouse collision
 grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+winListH = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+winListV = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 gridRect = [pygame.Rect(5, 5, 195, 195), pygame.Rect(5, 205, 195, 195), pygame.Rect(5, 405, 195, 195), pygame.Rect(205, 5, 195, 195), pygame.Rect(205, 205, 195, 195), pygame.Rect(205, 405, 195, 195), pygame.Rect(405, 5, 195, 195), pygame.Rect(405, 205, 195, 195), pygame.Rect(405, 405, 195, 195)]
 
 # create text fonts
@@ -65,14 +67,19 @@ def placeGrid(index, player):
     if grid[row][col] == " ":       
         if player == "X":
             grid[row][col] = "X" + str(col) + str(row)
+            winListH[row][col] = "X"
+            winListV[col][row] = "X"
             print("X placed at " + str(row) + ", " + str(col))
             return(True)
         elif player == "O":
             grid[row][col] = "O" + str(col) + str(row)
+            winListH[row][col] = "O"
+            winListV[col][row] = "O"
             print("O placed at " + str(row) + ", " + str(col))
             return(True)
     else:
         return(False)
+    
 # place Xs and Os in the game
 def placeScreen():
 
@@ -104,6 +111,7 @@ def placeScreen():
                         x=500
             
                 pygame.draw.line(screen, (255,0,0), (x-100, y-100), (x+100, y+100), 5)
+                pygame.draw.line(screen, (255,0,0), (x-100, y+100), (x+100, y-100), 5)
 
             elif piece.startswith("O"):
                 uCol = (piece.removeprefix("O"))
@@ -111,7 +119,6 @@ def placeScreen():
                 uRow = (piece.removeprefix("O"))
                 row = int(uRow[1])
                 
-
                 y=0
                 x=0
 
@@ -133,10 +140,37 @@ def placeScreen():
             
                 pygame.draw.circle(screen, (0,0,0), (x, y), 100, 5)
 
+def winCheck():
+    # check for horizontal wins
+    for list in winListH:
+        if list.count("X") == 3:
+            return("X")
+        elif list.count("O") == 3:
+            return("O")
+
+    # check for vertical wins
+    for list in winListV:
+        if list.count("X") == 3:
+            return("X")
+        elif list.count("O") == 3:
+            return("O")
+        
+    #check for diagonals
+    if winListH[0][0] == "X" and winListH[1][1] == "X" and winListH[2][2] == "X":
+        return("X")
+    elif winListH[0][2] == "X" and winListH[1][1] == "X" and winListH[2][0] == "X":
+        return("X")
+    
+    if winListH[0][0] == "O" and winListH[1][1] == "O" and winListH[2][2] == "O":
+        return("O")
+    elif winListH[0][2] == "O" and winListH[1][1] == "O" and winListH[2][0] == "O":
+        return("O")
+
 # run until the user asks to quit
 running = True
 started = False
 pTurn = True
+winner = False
 while running:
     # check if window has been asked to close
     for event in pygame.event.get():
@@ -191,6 +225,34 @@ while running:
 
         clock.tick(60)
 
+    while winner:
+        screen.fill((255, 255, 255))
+        winText = font.render(winCheck() + " won the game! Press R to restart.", True, (0,0,0), (255,255,255))
+        winRect = winText.get_rect()
+        winRect.center = (600 // 2, 650 // 2)
+        screen.blit(winText, winRect)
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                started = True
+                winner = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    started = True
+                    running = False
+                    winner = False
+                elif event.key == pygame.K_r:
+                    started = False
+                    winner = False
+                    grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+                    winListH = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+                    winListV = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+
+        clock.tick(60)
+            
+
     # draw game borders and lines
     pygame.draw.line(screen, (0,0,0), (600, 0), (600, 600), 10)
     pygame.draw.line(screen, (0,0,0), (0, 600), (0, 0), 10)
@@ -202,6 +264,10 @@ while running:
     pygame.draw.line(screen, (0,0,0), (0,400), (600,400), 10)
 
     placeScreen()
+    
+    if winCheck() == "X" or winCheck() == "O":
+        winner = True
+        pygame.time.wait(500)
 
     # calculate seconds passed since game start
     # and create text object
