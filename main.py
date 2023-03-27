@@ -133,9 +133,6 @@ def placeScreen():
             
                 pygame.draw.circle(screen, (0,0,0), (x, y), 100, 5)
 
-
-                
-
 # run until the user asks to quit
 running = True
 started = False
@@ -162,7 +159,7 @@ while running:
                             pTurn = True
                         else:
                             print("Item already placed there")
-                    print(str(grid))
+                    
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
