@@ -17,6 +17,7 @@ gridRect = [pygame.Rect(5, 5, 195, 195), pygame.Rect(5, 205, 195, 195), pygame.R
 # create text fonts
 font = pygame.font.Font('freesansbold.ttf', 32)
 fontSm = pygame.font.Font('freesansbold.ttf', 16)
+winFont = pygame.font.Font('freesansbold.ttf', 24)
  
 # create a text surface object
 text1 = font.render('Tic Tac Toe', True, (0,0,0), (255,255,255))
@@ -165,7 +166,17 @@ def winCheck():
         return("O")
     elif winListH[0][2] == "O" and winListH[1][1] == "O" and winListH[2][0] == "O":
         return("O")
+    
+    catNum = 0
+    
+    for list in grid:
+        for item in list:
+            if item != " ":
+                catNum = catNum+1
 
+    if catNum == 9:
+        return("Nobody")
+    
 # run until the user asks to quit
 running = True
 started = False
@@ -227,7 +238,7 @@ while running:
 
     while winner:
         screen.fill((255, 255, 255))
-        winText = font.render(winCheck() + " won the game! Press R to restart.", True, (0,0,0), (255,255,255))
+        winText = winFont.render(winCheck() + " won the game! Press R to restart.", True, (0,0,0), (255,255,255))
         winRect = winText.get_rect()
         winRect.center = (600 // 2, 650 // 2)
         screen.blit(winText, winRect)
@@ -265,7 +276,7 @@ while running:
 
     placeScreen()
     
-    if winCheck() == "X" or winCheck() == "O":
+    if winCheck() == "X" or winCheck() == "O" or winCheck() == "Nobody":
         winner = True
         pygame.time.wait(500)
 
