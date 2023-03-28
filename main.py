@@ -273,7 +273,18 @@ while running:
     pygame.draw.line(screen, (0,0,0), (400, 0), (400,600), 10)
     pygame.draw.line(screen, (0,0,0), (0, 200), (600,200), 10)
     pygame.draw.line(screen, (0,0,0), (0,400), (600,400), 10)
+    pygame.draw.line(screen, (255,0,0), (240-20, 625-20), (240+20, 625+20), 5)
+    pygame.draw.line(screen, (255,0,0), (240-20, 625+20), (240+20, 625-20), 5)
+    pygame.draw.circle(screen, (0,0,0), (360, 625), 20, 5)
 
+    if pTurn == True:
+        pygame.draw.line(screen, (0,0,0), (320, 625), (280, 625), 5)
+        pygame.draw.line(screen, (0,0,0), (280, 625), (290, 640), 5)
+        pygame.draw.line(screen, (0,0,0), (280, 625), (290, 610), 5)
+    else:
+        pygame.draw.line(screen, (0,0,0), (320, 625), (280, 625), 5)
+        pygame.draw.line(screen, (0,0,0), (320, 625), (310, 640), 5)
+        pygame.draw.line(screen, (0,0,0), (320, 625), (310, 610), 5)
     placeScreen()
     
     if winCheck() == "X" or winCheck() == "O" or winCheck() == "Nobody":
