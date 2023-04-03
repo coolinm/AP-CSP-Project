@@ -167,6 +167,7 @@ def winCheck():
     elif winListH[0][2] == "O" and winListH[1][1] == "O" and winListH[2][0] == "O":
         return("O")
     
+    # check for cats game
     catNum = 0
     
     for list in grid:
@@ -187,11 +188,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+            
+        # check each mouse click
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mousePos = pygame.mouse.get_pos()
-            mousePosRx = round(mousePos[0], -1)
-            mousePosRy = round(mousePos[1], -1)
-            print(str(mousePosRx) + ", " + str(mousePosRy))
+            # check if mouse click collides with game square and place X or O
             for rectangle in gridRect:
                 if rectangle.collidepoint(pygame.mouse.get_pos()):
                     if pTurn == True:
@@ -204,7 +204,8 @@ while running:
                             pTurn = True
                         else:
                             print("Item already placed there")
-                    
+
+        #check if ESC is pressed and quit game if so
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
@@ -236,6 +237,7 @@ while running:
 
         clock.tick(60)
 
+    # run when a winner is selected
     while winner:
         screen.fill((255, 255, 255))
         winText = winFont.render(winCheck() + " won the game! Press R to restart.", True, (0,0,0), (255,255,255))
@@ -257,6 +259,7 @@ while running:
                 elif event.key == pygame.K_r:
                     started = False
                     winner = False
+                    # reset all variables to restart game
                     grid = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
                     winListH = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
                     winListV = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
@@ -277,6 +280,7 @@ while running:
     pygame.draw.line(screen, (255,0,0), (240-20, 625+20), (240+20, 625-20), 5)
     pygame.draw.circle(screen, (0,0,0), (360, 625), 20, 5)
 
+    # draw arrow to show whos turn it is
     if pTurn == True:
         pygame.draw.line(screen, (0,0,0), (320, 625), (280, 625), 5)
         pygame.draw.line(screen, (0,0,0), (280, 625), (290, 640), 5)
@@ -287,6 +291,7 @@ while running:
         pygame.draw.line(screen, (0,0,0), (320, 625), (310, 610), 5)
     placeScreen()
     
+    # check for winner
     if winCheck() == "X" or winCheck() == "O" or winCheck() == "Nobody":
         winner = True
         pygame.time.wait(500)
