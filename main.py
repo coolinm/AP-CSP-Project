@@ -82,9 +82,7 @@ def placeGrid(index, player):
         return(False)
     
 # place Xs and Os in the game
-def placeScreen():
-
-    for item in grid:
+def placeScreen(item):
         for piece in item:
             if piece.startswith("X"):
                 uCol = (piece.removeprefix("X"))
@@ -289,7 +287,10 @@ while running:
         pygame.draw.line(screen, (0,0,0), (320, 625), (280, 625), 5)
         pygame.draw.line(screen, (0,0,0), (320, 625), (310, 640), 5)
         pygame.draw.line(screen, (0,0,0), (320, 625), (310, 610), 5)
-    placeScreen()
+
+
+    for item in grid:
+        placeScreen(item)
     
     # check for winner
     if winCheck() == "X" or winCheck() == "O" or winCheck() == "Nobody":
